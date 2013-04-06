@@ -16,7 +16,7 @@ class User_Controller extends Base_Controller {
     );
 
     if(Auth::attempt($credentials)) {
-      return View::make('home.index');
+      return Redirect::to('/home');
     } else {
       return Redirect::to_action('user@login')->with('error', 'Invalid username/password');
     }
@@ -69,7 +69,7 @@ class User_Controller extends Base_Controller {
 
   public function get_logout() {
     Auth::logout();
-    return Redirect::to_action('home@index');
+    return Redirect::to('');
   }
 
 }

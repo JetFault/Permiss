@@ -13,8 +13,10 @@
 			<h1>Permiss</h1>
 			<h2>Special Permission Number Handler</h2>
 
-      <p class="intro-text" style="margin-top: 45px;">Welcome {{ Auth::user()->name }}</p>
 
+      @if ( Auth::user())
+      <p class="intro-text" style="margin-top: 45px;">Welcome {{ Auth::user()->name }}</p>
+      @endif
       <div class="logout">
         <a href="/logout">Logout</a>
       </div>

@@ -14,7 +14,7 @@
 <body>
     <div class="row">
         <div class="small-6 large-6 small-centered large-centered columns">
-            <h1>Login Form</h1>
+            <h1>Permiss</h1>
             @if (Session::has('error'))
               <div class="alert alert-box">{{ Session::get('error') }}
                 <a href="" class="close">&times;</a>

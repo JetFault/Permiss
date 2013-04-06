@@ -32,11 +32,11 @@ class Home_Controller extends Base_Controller {
 
 	public function get_index()
   {
-    if(Auth::check()) {
+    //if(Auth::check()) {
       return View::make('home.index');
-    } else {
-      return View::make('user.login');
-    }
-	}
+    //} else {
+      //return View::make('user.login');
+    //}
+  }
 
 }

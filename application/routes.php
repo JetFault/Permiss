@@ -39,11 +39,16 @@ Route::controller(array(
 ));
 
 //Explicit Route Overrides
+Route::get('', array('before' => 'auth', 'do' => function() {
+  return View::make('home@index');
+}));
 Route::get('login', 'user@login');
 Route::post('login', 'user@login');
 Route::get('register', 'user@register');
 Route::post('register', 'user@register');
 Route::get('logout', 'user@logout');
+
+Route::get('home', 'home@index');
 
 
 /*
