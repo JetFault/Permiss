@@ -15,42 +15,90 @@
 <body>
    
     <div class="row">
-        <form method="POST" action="">
+        @if (Session::has('error'))
+            <div class="alert alert-box">
+                <a href="" class="close">&times;</a>
+            </div>
+        @endif
+
+        <form method="POST" action="/register">
             <fieldset>
                 <legend>Register</legend>
 
                 <div class="row">
                     <div class="small-4 large-4 columns">
+                    @if (Session::has('errors') && Session::get('errors')->has('ruid'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('ruid') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="ruid">RUID:</label>
                         <input type="text" id="ruid" name="ruid">
                     </div>
                     <div class="small-4 large-4 columns">
+                    @if (Session::has('errors') && Session::get('errors')->has('netid'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('netid') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="netid">NetID:</label>
                         <input type="text" id="netid" name="netid">
                     </div>
                     <div class="small-4 large-4 columns">
+                    @if (Session::has('errors') && Session::get('errors')->has('name'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('name') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="name">Name:</label>
                         <input type="text" id="name" name="name">
                     </div>
                 </div>
                 <div class="row">
                     <div class="small-6 large-6 columns">
+                    @if (Session::has('errors') && Session::get('errors')->has('email'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('email') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="email">Email:</label>
                         <input type="text" id="email" name="email">
                     </div>
                     <div class="small-6 large-6 columns">
+                    @if (Session::has('errors') && Session::get('errors')->has('email_confirmation'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('email_confirmation') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="vemail">Verify Email:</label>
-                        <input type="text" id="vemail">
+                        <input type="text" id="email_confirmation" name="email_confirmation">
                     </div>
                 </div>
                 <div class="row">
                     <div class="small-6 large-6 columns">
+                    @if (Session::has('errors') && Session::get('errors')->has('password'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('password') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password">
                     </div>
                     <div class="small-6 large-6 columns">
+                    @if (Session::has('errors') && Session::get('errors')->has('password_confirmation'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('password_confirmation') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="vpassword">Verify Password:</label>
-                        <input type="password" id="vpassword">
+                        <input type="password" id="password_confirmation" name="password_confirmation">
                     </div>
                 </div>
                 <div class="row">

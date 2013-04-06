@@ -16,9 +16,9 @@ class User_Controller extends Base_Controller {
     );
 
     if(Auth::attempt($credentials)) {
-      return Redirect::to('dashboard/index');
+      return View::make('home.index');
     } else {
-      echo "Failed to login!";
+      return Redirect::to_action('user@login')->with('error', 'Invalid username/password');
     }
   }
 
@@ -28,11 +28,28 @@ class User_Controller extends Base_Controller {
   }
 
   public function post_register() {
+
+    $input = Input::all();
+
     $email = Input::get('email');
     $ruid = Input::get('ruid');
     $netid = Input::get('netid');
     $name = Input::get('name');
     $password = Input::get('password');
+
+    $rules = array(
+      'email' => 'required|email|unique:users|confirmed',
+      'ruid' => 'required|unique:users|numeric',
+      'netid' => 'required|unique:users',
+      'name' => 'required',
+      'password' => 'required|confirmed'
+    );
+
+    $validation = Validator::make($input, $rules);
+
+    if($validation->fails()) {
+      return Redirect::to_action('user@register')->with_input->with('errors', $validation->errors);
+    }
 
     try {
       $user = new User();
@@ -44,15 +61,15 @@ class User_Controller extends Base_Controller {
       $user->save();
       Auth::login($user);
 
-      return Redirect::to('dashboard/index');
+      return Redirect::to_action('home@index');
     } catch(Exception $e) {
-      echo "Failed to create new user!" . $e;
+      return Redirect::to_action('home@register')->with_input->with('error', $e);
     }
   }
 
   public function get_logout() {
     Auth::logout();
-    echo "Logged out";
+    return Redirect::to_action('home@index');
   }
 
 }

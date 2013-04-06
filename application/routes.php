@@ -43,6 +43,7 @@ Route::get('login', 'user@login');
 Route::post('login', 'user@login');
 Route::get('register', 'user@register');
 Route::post('register', 'user@register');
+Route::get('logout', 'user@logout');
 
 
 /*

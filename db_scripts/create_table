@@ -4,6 +4,7 @@ CREATE TABLE users (
   netid VARCHAR(100) NOT NULL,
   ruid VARCHAR(9) NOT NULL,
   email VARCHAR(100) NOT NULL,
+  name VARCHAR(50) NOT NULL,
   password VARCHAR(100) NOT NULL,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL,
