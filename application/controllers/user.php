@@ -1,6 +1,11 @@
 <?php
 class User_Controller extends Base_Controller {
 
+  public function get_login() {
+    // Should render form for login
+    return View::make('user.login');
+  }
+
   public function post_login() {
     $netid = Input::get('netid');
     $password = Input::get('password');
@@ -17,6 +22,11 @@ class User_Controller extends Base_Controller {
     }
   }
 
+  public function get_register() {
+    // Should render form for registration
+    return View::make('user.register');
+  }
+
   public function post_register() {
     $email = Input::get('email');
     $ruid = Input::get('ruid');
@@ -31,6 +41,7 @@ class User_Controller extends Base_Controller {
       $user->netid = $netid;
       $user->name = $name;
       $user->password = Hash::make($password);
+      $user->save();
       Auth::login($user);
 
       return Redirect::to('dashboard/index');
@@ -39,7 +50,7 @@ class User_Controller extends Base_Controller {
     }
   }
 
-  public function get_logout() {
+  public function any_logout() {
     Auth::logout();
     echo "Logged out";
   }

@@ -39,6 +39,11 @@ Route::controller(array(
 ));
 
 //Explicit Route Overrides
+Route::get('login', 'user@login');
+Route::post('login', 'user@login');
+Route::get('register', 'user@register');
+Route::post('register', 'user@register');
+
 
 /*
 |--------------------------------------------------------------------------
