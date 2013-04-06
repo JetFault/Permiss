@@ -50,7 +50,7 @@ class User_Controller extends Base_Controller {
     }
   }
 
-  public function any_logout() {
+  public function get_logout() {
     Auth::logout();
     echo "Logged out";
   }
