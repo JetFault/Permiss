@@ -1,0 +1,23 @@
+.login-form .button {
+    margin-top: 20px;
+    /*margin-left: 10px;*/
+}
+.register-link {
+    margin-top: 20px;
+    margin-left: 10px;
+    display: inline;
+}
+.register-button {
+    margin: 0 0 0;
+}
+.columns.plus-button {
+    margin-top: 20px;
+    padding-left: 0px;
+}
+.columns.plus-button2 {
+    margin-top: 3px;
+    padding-left: 0px;
+}
+.pad-bot {
+    padding-bottom: 20px;
+}
