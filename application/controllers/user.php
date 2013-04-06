@@ -1,7 +1,7 @@
 <?php
 class User_Controller extends Base_Controller {
 
-  public function action_login() {
+  public function post_login() {
     $netid = Input::get('netid');
     $password = Input::get('password');
 
@@ -17,7 +17,7 @@ class User_Controller extends Base_Controller {
     }
   }
 
-  public function action_register() {
+  public function post_register() {
     $email = Input::get('email');
     $ruid = Input::get('ruid');
     $netid = Input::get('netid');
@@ -39,7 +39,7 @@ class User_Controller extends Base_Controller {
     }
   }
 
-  public function action_logout() {
+  public function get_logout() {
     Auth::logout();
     echo "Logged out";
   }

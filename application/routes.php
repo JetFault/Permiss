@@ -32,10 +32,13 @@
 |
 */
 
-Route::get('/', function()
-{
-	return View::make('home.index');
-});
+// Loading Controllers
+Route::controller(array(
+  'home',
+  'user'
+));
+
+//Explicit Route Overrides
 
 /*
 |--------------------------------------------------------------------------
