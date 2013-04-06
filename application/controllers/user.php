@@ -48,7 +48,7 @@ class User_Controller extends Base_Controller {
     $validation = Validator::make($input, $rules);
 
     if($validation->fails()) {
-      return Redirect::to_action('user@register')->with_input->with('errors', $validation->errors);
+      return Redirect::to_action('user@register')->with_input()->with('errors', $validation->errors);
     }
 
     try {
