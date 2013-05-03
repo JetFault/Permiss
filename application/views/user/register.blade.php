@@ -121,7 +121,6 @@
         </form>
     </div>
  
-    <script src="js/foundation.min.js"></script>
     <script type="htmltemplate" id="student-display">
         <div class="row">
             <div class="small-2 large-2 columns">
@@ -160,6 +159,7 @@
             </div>
         </div>
     </script>
+    <script src="js/foundation.min.js"></script>
     <script src="js/register.js"></script>
 </body>
 </html>
