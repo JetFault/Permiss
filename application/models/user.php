@@ -1,10 +1,10 @@
 <?php
+
 class User extends Eloquent {
-  public static $timestamps = true;
+  public static $timestamps = false;
+  public static $key = 'ruid';
 
-  public function user_profile() {
-    return $this->has_one('User_Profile');
+  public function student() {
+    return $this->has_one('Student');
   }
-
 }
-?>
