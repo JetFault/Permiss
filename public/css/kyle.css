@@ -21,3 +21,9 @@
 .pad-bot {
     padding-bottom: 20px;
 }
+.required-checkbox {
+    margin-bottom: 10px;
+}
+.comment-box {
+    height: 100px;
+}
