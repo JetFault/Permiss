@@ -1,7 +1,7 @@
 $(function(){
   var affiliation = $('#sections');
 
-  function displayForStudent(){
+  function displaySections(){
       affiliation.append($('#section-display').html());
       $('#section-add-row').click(function(){
           $('#section-div').append($('#section-div-sub-row').html());
@@ -11,5 +11,5 @@ $(function(){
       });
   }
 
-  displayForStudent();
+  displaySections();
 });
