@@ -59,7 +59,7 @@ class Define_Schemas {
       $t->integer('course_id')->unsigned();
       $t->foreign('course_id')->references('id')->on('courses')->on_delete('cascade');
       $t->integer('student_id')->unsigned();
-      $t->foreign('student_id')->references('user_id')->on('students')->on_delete('cascade');
+      $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
     });
 
     Schema::create('sections', function($t) {
@@ -82,14 +82,14 @@ class Define_Schemas {
       $t->integer('section_id')->unsigned();
       $t->foreign('section_id')->references('id')->on('sections')->on_delete('cascade');
       $t->integer('student_id')->unsigned();
-      $t->foreign('student_id')->references('user_id')->on('students')->on_delete('cascade');
+      $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
     });
 
     Schema::create('permissionnumbers', function($t) {
       $t->increments('id');
       $t->string('permission_code');
       $t->integer('student_id')->unsigned()->nullable();
-      $t->foreign('student_id')->references('user_id')->on('students')->on_delete('cascade');
+      $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
       $t->integer('section_id')->unsigned();
       $t->foreign('section_id')->references('id')->on('sections')->on_delete('cascade');
     });
