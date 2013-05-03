@@ -27,14 +27,14 @@
 
                 <div class="row">
                     <div class="small-4 large-4 columns">
-                    @if (Session::has('errors') && Session::get('errors')->has('ruid'))
+                    @if (Session::has('errors') && Session::get('errors')->has('id'))
                         <div class="alert alert-box">
-                          {{ Session::get('errors')->first('ruid') }}
+                          {{ Session::get('errors')->first('id') }}
                           <a href="" class="close">&times;</a>
                         </div>
                     @endif
                         <label for="ruid">RUID:</label>
-                        <input type="text" id="ruid" name="ruid">
+                        <input type="text" id="id" name="id">
                     </div>
                     <div class="small-4 large-4 columns">
                     @if (Session::has('errors') && Session::get('errors')->has('netid'))
@@ -105,8 +105,8 @@
                     <div class="small-4 large-4 columns pad-bot">
                         <label for="affiliationDropdown">Affiliation:</label>
                         <select id="affiliationDropdown" name="affiliation">
-                            <option>Student</option>
-                            <option>Faculty</option>
+                            <option value="student">Student</option>
+                            <option value="faculty">Faculty</option>
                         </select>
                     </div>
                 </div>
@@ -127,10 +127,10 @@
             <div class="small-2 large-2 columns">
                 <label for="termDropdown">Grad Semester:</label>
                 <select id="termDropdown" name="gradsemester">
-                    <option>Fall</option>
-                    <option>Spring</option>
-                    <option>Summer</option>
-                    <option>Winter</option>
+                    <option value="fall">Fall</option>
+                    <option value="spring">Spring</option>
+                    <option value="summer">Summer</option>
+                    <option value="winter">Winter</option>
                 </select>
             </div>
             <div class="small-2 large-2 left columns">

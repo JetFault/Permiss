@@ -27,8 +27,8 @@
                 <input type="password" id="password" name="password">
                 <label for="affiliationDropdown">Affiliation:</label>
                 <select id="affiliationDropdown" name="affiliation">
-                    <option>Student</option>
-                    <option>Faculty</option>
+                    <option value="student">Student</option>
+                    <option value="faculty">Faculty</option>
                 </select>
                 <input type="submit" value="Login" class="radius button">
                 <div class="register-link"><a href="/register">Register</a></div>
