@@ -15,8 +15,8 @@ class Student extends Eloquent {
     return $this->has_many_and_belongs_to('Course');
   }
 
-  public function requests() {
-    return $this->has_many_and_belongs_to('Request');
+  public function reqs() {
+    return $this->has_many_and_belongs_to('Req');
   }
 
   public function permissionnumbers() {

@@ -3,13 +3,13 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 
 <head>
-<title>Course Permission Thing</title>
+  <title>Course Permission Thing</title>
 	<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/kyle.css" />
-    <script src="js/vendor/custom.modernizr.js"></script>
+  <meta name="viewport" content="width=device-width" />
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/foundation.css" />
+  <link rel="stylesheet" href="css/kyle.css" />
+  <script src="js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
     <div class="row">
@@ -28,7 +28,7 @@
                 <label for="affiliationDropdown">Affiliation:</label>
                 <select id="affiliationDropdown" name="affiliation">
                     <option value="student">Student</option>
-                    <option value="faculty">Faculty</option>
+                    <option value="instructor">Instructor</option>
                 </select>
                 <input type="submit" value="Login" class="radius button">
                 <div class="register-link"><a href="/register">Register</a></div>

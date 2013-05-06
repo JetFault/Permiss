@@ -48,6 +48,7 @@ class Define_Schemas {
 
     Schema::create('courses', function($t) {
       $t->increments('id');
+      $t->string('name');
       $t->integer('school_num')->unsigned();
       $t->integer('dept_num')->unsigned();
       $t->integer('course_num')->unsigned();
@@ -62,11 +63,10 @@ class Define_Schemas {
       $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
     });
 
-    Schema::create('sections', function($t) {
+    Schema::create('sects', function($t) {
       $t->increments('id');
       $t->integer('num_students')->unsigned()->default(0);
       $t->integer('capacity')->unsigned();
-      $t->string('name');
       $t->string('course_index');
       $t->integer('course_id')->unsigned();
       $t->foreign('course_id')->references('id')->on('courses')->on_delete('cascade');
@@ -74,13 +74,13 @@ class Define_Schemas {
       $t->foreign('instructor_id')->references('id')->on('instructors')->on_delete('cascade');
     });
 
-    Schema::create('requests', function($t) {
+    Schema::create('reqs', function($t) {
       $t->increments('id');
       $t->string('comment')->default('');
       $t->string('status')->default('pending');
       $t->integer('priority');
       $t->integer('section_id')->unsigned();
-      $t->foreign('section_id')->references('id')->on('sections')->on_delete('cascade');
+      $t->foreign('section_id')->references('id')->on('sects')->on_delete('cascade');
       $t->integer('student_id')->unsigned();
       $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
     });
@@ -91,7 +91,7 @@ class Define_Schemas {
       $t->integer('student_id')->unsigned()->nullable();
       $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
       $t->integer('section_id')->unsigned();
-      $t->foreign('section_id')->references('id')->on('sections')->on_delete('cascade');
+      $t->foreign('section_id')->references('id')->on('sects')->on_delete('cascade');
     });
 
     Schema::create('emails', function($t) {
@@ -113,8 +113,8 @@ class Define_Schemas {
   {
      Schema::drop('emails');
      Schema::drop('permissionnumbers');
-     Schema::drop('requests');
-     Schema::drop('sections');
+     Schema::drop('reqs');
+     Schema::drop('sects');
      Schema::drop('course_student');
      Schema::drop('courses');
      Schema::drop('major_student');

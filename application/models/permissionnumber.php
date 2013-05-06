@@ -7,7 +7,7 @@ class PermissionNumber extends Eloquent {
     return $this->belongs_to('Student');
   }
 
-  public function sections() {
-    return $this->belongs_to('Section');
+  public function sects() {
+    return $this->belongs_to('Sect');
   }
 }

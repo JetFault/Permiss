@@ -1,10 +1,10 @@
 <?php
 
-class Request extends Eloquent {
+class Req extends Eloquent {
   public static $timestamps = false;
 
-  public function sections() {
-    return $this->belongs_to('Section');
+  public function sects() {
+    return $this->belongs_to('Sect');
   }
 
   public function students() {

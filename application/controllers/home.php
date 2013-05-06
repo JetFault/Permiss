@@ -33,7 +33,11 @@ class Home_Controller extends Base_Controller {
 	public function get_index()
   {
     if(Auth::check()) {
-      return View::make('home.index');
+      if(Session::get('role') === 'instructor') {
+        return View::make('instructor.index');
+      } else {
+        return View::make('student.index');
+      }
     } else {
       return View::make('user.login');
     }

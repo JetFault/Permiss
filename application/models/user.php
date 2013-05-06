@@ -8,5 +8,9 @@ class User extends Eloquent {
     return $this->has_one('Student');
   }
 
+  public function instructor() {
+    return $this->has_one('Instructor');
+  }
+
 }
 

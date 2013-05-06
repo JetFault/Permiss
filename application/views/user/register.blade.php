@@ -34,7 +34,7 @@
                         </div>
                     @endif
                         <label for="ruid">RUID:</label>
-                        <input type="text" id="id" name="id">
+                        <input type="text" id="ruid" name="ruid">
                     </div>
                     <div class="small-4 large-4 columns">
                     @if (Session::has('errors') && Session::get('errors')->has('netid'))
@@ -103,10 +103,16 @@
                 </div>
                 <div class="row">
                     <div class="small-4 large-4 columns pad-bot">
+                    @if (Session::has('errors') && Session::get('errors')->has('affiliation'))
+                        <div class="alert alert-box">
+                          {{ Session::get('errors')->first('affiliation') }}
+                          <a href="" class="close">&times;</a>
+                        </div>
+                    @endif
                         <label for="affiliationDropdown">Affiliation:</label>
                         <select id="affiliationDropdown" name="affiliation">
                             <option value="student">Student</option>
-                            <option value="faculty">Faculty</option>
+                            <option value="instructor">Instructor</option>
                         </select>
                     </div>
                 </div>

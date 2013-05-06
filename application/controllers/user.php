@@ -1,6 +1,18 @@
 <?php
 class User_Controller extends Base_Controller {
 
+  public function get_index() {
+    if(Auth::check()) {
+      if(Session::get('role') === 'instructor') {
+        return View::make('instructor.index');
+      } else {
+        return View::make('student.index');
+      }
+    } else {
+      return View::make('user.login');
+    }
+  }
+
   public function get_login() {
     // Should render form for login
     return View::make('user.login');
@@ -10,10 +22,6 @@ class User_Controller extends Base_Controller {
     $netid = Input::get('netid');
     $password = Input::get('password');
 
-    if (Input::get('affiliation') === 'faculty') {
-      Config::set('auth.table', 'facultys');
-      Config::set('auth.model', 'Faculty');
-    }
 
     $credentials = array(
       'username' => $netid,
@@ -21,8 +29,15 @@ class User_Controller extends Base_Controller {
     );
 
     if(Auth::attempt($credentials)) {
-      //var_dump(Auth::user());die;
-      return Redirect::to('/home');
+      if (Input::get('affiliation') === 'instructor') {
+        Session::put('role', 'instructor');
+        Session::put('user', Auth::user()->instructor);
+      } else {
+        Session::put('role', 'student');
+        Session::put('user', Auth::user()->student);
+      }
+
+      return Redirect::to_route('home');
     } else {
       return Redirect::to_action('user@login')->with('error', 'Invalid username/password');
     }
@@ -38,25 +53,23 @@ class User_Controller extends Base_Controller {
     $input = Input::all();
 
     $email = Input::get('email');
-    $id = Input::get('id');
+    $ruid = Input::get('ruid');
     $netid = Input::get('netid');
     $name = Input::get('name');
     $password = Input::get('password');
     $affiliation = Input::get('affiliation');
 
     $rules = array(
-      'email' => 'required|email|unique:students|unique:facultys|confirmed',
-      'id' => 'required|unique:students|unique:facultys|integer',
-      'netid' => 'required|unique:students|unique:facultys',
+      'email' => 'required|email|unique:users|confirmed',
+      'ruid' => 'required|unique:users',
+      'netid' => 'required|unique:users',
       'name' => 'required',
       'password' => 'required|confirmed',
-      'affiliation' => 'required|in:faculty,student'
+      'affiliation' => 'required|in:instructor,student'
     );
 
-    $user = null;
-    if($affiliation === 'faculty') {
-      Config::set('auth.table', 'facultys');
-      Config::set('auth.model', 'Faculty');
+    if($affiliation === 'instructor') {
+
     } else if($affiliation === 'student') {
       $rules['gradsemester'] = 'required|in:fall,winter,spring,summer';
       $rules['gradyear'] = 'required|integer|between:1700,3000';
@@ -65,37 +78,54 @@ class User_Controller extends Base_Controller {
     $validation = Validator::make($input, $rules);
 
     if($validation->fails()) {
-      //var_dump($validation->errors->all());
       return Redirect::to_action('user@register')->with_input()->with_errors($validation);
     }
 
-    $user = null;
-    if($affiliation === 'faculty') {
-      $user = new Faculty();
-    } else {
-      $user = new Student();
-      $user->gradsemester = $input['gradsemester'];
-      $user->gradyear = $input['gradyear'];
-    }
 
+    $user = new User();
     $user->email = $email;
-    $user->id = $id;
+    $user->ruid = $ruid;
     $user->netid = $netid;
     $user->name = $name;
     $user->password = Hash::make($password);
     $user->save();
 
-    if (is_null($user)) {
+    $role_user = null;
+    if($affiliation === 'instructor') {
+      $role_user = new Instructor();
+    } else {
+      $role_user = new Student();
+      $role_user->grad_semester = $input['gradsemester'];
+      $role_user->grad_year = $input['gradyear'];
+    }
+
+    $role_user->user_id = $user->ruid;
+
+    $role_user->save();
+
+    if (is_null($user) || is_null($role_user)) {
+      $user->delete();
       return Redirect::to_action('home@register')->with_input->with_errors(array('Failed to save user'));
     }
 
     Auth::login($user);
-    return Redirect::to_action('home@index');
+
+    if ($affiliation === 'instructor') {
+      Session::put('role', 'instructor');
+      Session::put('user', Auth::user()->instructor);
+    } else {
+      Session::put('role', 'student');
+      Session::put('user', Auth::user()->student);
+    }
+
+    return Redirect::to_route('home');
   }
 
   public function get_logout() {
     Auth::logout();
-    return Redirect::to('/');
+    Session::forget('role');
+    Session::forget('user');
+    return Redirect::to_route('home');
   }
 
 }

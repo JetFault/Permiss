@@ -6,16 +6,16 @@
 <title>Course Permission Thing</title>
 	<meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/kyle.css" />
-    <script src="js/vendor/custom.modernizr.js"></script>
-    <script src="js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/css/normalize.css" />
+    <link rel="stylesheet" href="/css/foundation.css" />
+    <link rel="stylesheet" href="/css/kyle.css" />
+    <script src="/js/vendor/custom.modernizr.js"></script>
+    <script src="/js/jquery.min.js"></script>
 </head>
 <body>
    
     <div class="row">
-        <form method="POST" action="/register">
+        <form method="POST" action="/student/request">
             <fieldset>
                 <legend>Request Course</legend>
                 <div class="row">
@@ -54,7 +54,6 @@
         </form>
     </div>
  
-    <script src="js/foundation.min.js"></script>
     <script type="htmltemplate" id="section-display">
         <div id="section-div">
             <div class="row">
@@ -78,6 +77,7 @@
             </div>
         </div>
     </script>
-    <script src="js/request_course.js"></script>
+    <script src="/js/foundation.min.js"></script>
+    <script src="/js/request_course.js"></script>
 </body>
 </html>

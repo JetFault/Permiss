@@ -1,6 +1,6 @@
 <?php
 
-class Section extends Eloquent {
+class Sect extends Eloquent {
   public static $timestamps = false;
 
   public function course() {

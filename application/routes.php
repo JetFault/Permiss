@@ -35,20 +35,28 @@
 // Loading Controllers
 Route::controller(array(
   'home',
-  'user'
+  'user',
+  'student',
+  'instructor'
 ));
 
 //Explicit Route Overrides
-Route::get('', array('before' => 'auth', 'do' => function() {
-  return View::make('home@index');
-}));
+Route::get('/', array('before' => 'auth', 'as' => 'home', 'uses' => 'user@index'));
+
 Route::get('login', 'user@login');
 Route::post('login', 'user@login');
 Route::get('register', 'user@register');
 Route::post('register', 'user@register');
 Route::get('logout', 'user@logout');
+Route::post('logout', 'user@logout');
 
-Route::get('home', 'home@index');
+Route::get('student', 'student@index');
+Route::get('student/request', 'student@request');
+Route::post('student/request', 'student@request');
+
+Route::get('instructor', 'instructor@index');
+Route::get('instructor/add_course', 'instructor@add_course');
+Route::post('instructor/add_course', 'instructor@add_course');
 
 
 /*
