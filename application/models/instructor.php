@@ -7,4 +7,8 @@ class Instructor extends Eloquent {
     return $this->belongs_to('User');
   }
 
+  public function sects() {
+    return $this->has_many('Sect');
+  }
+
 }

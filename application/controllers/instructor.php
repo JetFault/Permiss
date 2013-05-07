@@ -2,7 +2,11 @@
 class Instructor_Controller extends Base_Controller {
 
   public function get_index() {
-    return View::make('instructor.index');
+    $instructor = Session::get('user');
+
+    $sects = $instructor->sects();
+
+    return View::make('instructor.index')->with('sects', $sects);
   }
 
   public function get_add_course() {
