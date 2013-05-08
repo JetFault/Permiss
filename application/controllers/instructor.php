@@ -63,6 +63,7 @@ class Instructor_Controller extends Base_Controller {
       $course->school_num = $input['school'];
       $course->dept_num = $input['dept'];
       $course->course_num = $input['course'];
+      $course->prereqs = $input['prereq'];
       $course->save();
     }
 

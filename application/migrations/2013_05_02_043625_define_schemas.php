@@ -103,6 +103,23 @@ class Define_Schemas {
       $t->string('subject')->default('');
       $t->string('body')->default('');
     });
+
+    Schema::create('prevcourses', function($t) {
+      $t->increments('id');
+      $t->string('name');
+      $t->integer('school_num')->unsigned();
+      $t->integer('dept_num')->unsigned();
+      $t->integer('course_num')->unsigned();
+      $t->string('prereqs');
+    });
+
+    Schema::create('prevcourse_student', function($t) {
+      $t->increments('id');
+      $t->integer('prevcourse_id')->unsigned();
+      $t->foreign('prevcourse_id')->references('id')->on('prevcourses')->on_delete('cascade');
+      $t->integer('student_id')->unsigned();
+      $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
+    });
 	}
 
 
@@ -124,6 +141,9 @@ class Define_Schemas {
      Schema::drop('instructors');
      Schema::drop('students');
      Schema::drop('users');
+
+     Schema::drop('prevcourses');
+     Schema::drop('prevcourse_student');
   }
 
 }
