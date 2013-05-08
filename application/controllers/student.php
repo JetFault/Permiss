@@ -33,6 +33,7 @@ class Student_Controller extends Base_Controller {
     }
 
     $sections_in = Input::get('section');
+    $priority_in = Input::get('priority');
 
     if(count($sections_in) == 0) {
       return Redirect::to_action('student@request')->with_input()->with_errors(
@@ -45,7 +46,7 @@ class Student_Controller extends Base_Controller {
 
     $sects = $course->sects()->where_in('course_index', $sections_in)->get();
 
-    foreach($sects as $sect) {
+    foreach($sects as $key => $sect) {
       /*
       if($student->reqs()->join(, 'reqs.sect_id', '=', 'sects.id')->where_in('course_index', $sect->course_index)->first()) {
         
@@ -57,6 +58,8 @@ class Student_Controller extends Base_Controller {
           $req->required = true;
         }
         $req->student_id = $student->id;
+
+        $req->priority = $priority_in[$key];
 
         try {
           $req = $student->reqs()->insert($req);

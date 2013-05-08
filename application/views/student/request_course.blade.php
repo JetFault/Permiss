@@ -64,6 +64,10 @@
                     <label>Section:</label>
                     <input type="text" name="section[]">
                 </div>
+                    <div class="small-4 large-4 columns">
+                        <label for="priority">Priority(1-10):</label>
+                        <input type="text" id="priority" name="priority[]">
+                    </div>
                 <div class="small-4 large-4 columns left plus-button">
                     <input type="button" id="section-add-row" value="Add" class="tiny round button">
                 </div>
@@ -75,6 +79,10 @@
             <div class="small-4 large-4 columns">
                 <input type="text" name="section[]">
             </div>
+                    <div class="small-4 large-4 columns">
+                        <label for="priority">Priority(1-10):</label>
+                        <input type="text" id="priority" name="priority[]">
+                    </div>
             <div class="small-4 large-4 columns left plus-button2">
                 <input type="button" value="Sub" class="tiny round button alert section-sub-row">
             </div>

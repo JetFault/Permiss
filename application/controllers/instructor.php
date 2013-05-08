@@ -47,6 +47,7 @@ class Instructor_Controller extends Base_Controller {
     }
 
     $sections_in = Input::get('section');
+    $priority_in = Input::get('priority');
 
     if(count($sections_in) == 0) {
       return Redirect::to_action('instructor@add_course')->with_input()->with_errors(
@@ -72,7 +73,7 @@ class Instructor_Controller extends Base_Controller {
     $exists = array();
     $to_add = array();
 
-    foreach($sections_in as $sect_in) {
+    foreach($sections_in as $key => $sect_in) {
       if(in_array($sect_in, $sects)) {
         array_push($exists, $sect_in);
       } else {
