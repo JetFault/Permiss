@@ -31,8 +31,16 @@
              <p>{{{ $req->comment }}}</p>
           </div>
           @if( $req->status === 'pending')
-          <a href="/instructor/accept_request/{{{ $req->id }}}" class="button success">Accept</a>
-          <a href="/instructor/deny_request/{{{ $req->id }}}" class="button alert">Deny</a>
+          <form method="POST" action="/instructor/send_review">
+            <div class="row">
+            <div class="small-12 columns">
+              <input type="hidden" name="request_id" value="{{{ $req->id }}}">
+              <textarea id="comment" name="comment"></textarea>
+              <input type="submit" name="status" value="accept" class="register-button radius button">
+              <input type="submit" name="status" value="deny" class="register-button radius button">
+              </div>
+            </div>
+          </form>
           @elseif( $req->status === 'accepted')
             <div class="small-12 columns" style="background-color:green;">Accepted</div>
           @else

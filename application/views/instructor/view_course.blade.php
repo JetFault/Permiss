@@ -34,7 +34,6 @@
               <th width="90">Required</th>
               <th width="90">Priority</th>
               <th class="sorttable_nosort">Request</th>
-              <th class="sorttable_nosort">Student</th>
             </tr>
           </thead>
           <tbody>
@@ -48,7 +47,6 @@
                 <td>{{{ $req->required }}}</td>
                 <td>{{{ $req->priority }}}</td>
                 <td><a class="button" href="/instructor/view_request/{{{ $req->id }}}">Request</a></td>
-                <td><a class="button success" href="/instructor/view_student/{{{ $student->id }}}">Student</a></td>
               </tr>
             @endforeach
           </tbody>

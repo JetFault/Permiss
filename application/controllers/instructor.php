@@ -144,6 +144,35 @@ class Instructor_Controller extends Base_Controller {
     return View::make('instructor.view_request')->with('req', $req);
   }
 
+  function post_send_review() {
+    $input = Input::all();
+
+    $request_id = $input['request_id'];
+    $req = Req::with(array('student', 'sect', 'sect.course'))->find($request_id);
+
+    if(!$this->is_self_sect($req->sect->id)) {
+      return Response::error('404');
+    }
+
+    $status = $input['status'];
+    if($status === 'deny') {
+      $req->status = 'accepted';
+    } else if($status === 'accept') {
+      $req->status = 'accepted';
+    }
+
+    $req->save();
+
+    $email = new Email();
+    $email->to = $req->student->user->email;
+    $email->from = $req->sect->instructor->user->email;
+    $email->subject = $req->status;
+    $email->body = $input['comment'];
+    $email->save();
+
+    return View::make('instructor.view_request')->with('req', $req);
+  }
+
   function get_accept_request($request_id) {
     $req = Req::with(array('student', 'sect', 'sect.course'))->find($request_id);
 
@@ -176,6 +205,7 @@ class Instructor_Controller extends Base_Controller {
     }
 
     $sect = Sect::with(array('course'))->find($sect_id);
+
     $reqs = $sect->reqs;
 
     return View::make('instructor.view_section')->with('sect', $sect)->with('reqs', $reqs);
@@ -185,22 +215,26 @@ class Instructor_Controller extends Base_Controller {
     $instructor = Session::get('user');
 
     $student = Student::find($student_id);
+    if(is_null($student)) {
+      return Response::error('404');
+    }
 
     // LEFT OUTER JOIN, stud->req, instr->sect, on sect.id = req.sect_id
 
-    $derp = DB::table('req')->where('student_id', '=', $student->id)
-      ->left_join('sect', function($join) {
-        $join->on('req.sect_id', '=', 'sect.id');
-        $join->on('sect.instructor_id', '=', $instructor->id);
-      })
+    $derp = DB::table('reqs')->where('student_id', '=', $student->id)
+      ->left_join('sects', function($join) {
+        $join->on('reqs.sect_id', '=', 'sects.id');
+      })->where('instructor_id', '=', $instructor->id)
       ->get();
+
+    print_r($derp);
 
    
 
     //$reqs = $student->reqs()->with(array('sect', 'sect.course'))->where('
       //->where('instructor_id', '=', $instructor->id)->get();
 
-    return View::make('instructor.view_student')->with('student', $student)->with('reqs', $reqs);
+    return View::make('instructor.view_student')->with('student', $student)->with('reqs', $derp);
   }
 
 }

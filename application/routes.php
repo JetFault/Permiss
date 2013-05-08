@@ -62,6 +62,7 @@ Route::group(array('before' => 'auth|role:instructor'), function() {
   Route::get('instructor/view_request/(:num)', 'instructor@view_request');
   Route::get('instructor/accept_request/(:num)', 'instructor@accept_request');
   Route::get('instructor/deny_request/(:num)', 'instructor@deny_request');
+  Route::post('instructor/send_review', 'instructor@send_review');
 });
 
 

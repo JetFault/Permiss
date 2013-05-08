@@ -22,7 +22,7 @@
             <tr>
               <th width="200">Name</th>
               <th width="150">NetID</th>
-              <th >Grad Date</th>
+              <th>Grad Date</th>
               <th width="90">Required</th>
               <th width="90">Priority</th>
               <th>Request</th>
