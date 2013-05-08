@@ -1,19 +1,22 @@
-<!DOCTYPE html>
-<!--[if IE 8]>      <html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+@layout('layout.header')
 
-<head>
-<title>Course Permission Thing</title>
-	<meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="stylesheet" href="/css/normalize.css" />
-    <link rel="stylesheet" href="/css/foundation.css" />
-    <link rel="stylesheet" href="/css/kyle.css" />
-    <script src="/js/vendor/custom.modernizr.js"></script>
-    <script src="/js/jquery.min.js"></script>
-</head>
-<body>
-   
+@section('content')
+  <? $messages = array(); ?>
+  @if (Session::has('errors'))
+    <? $messages = Session::get('errors')->all('<span style="margin-right: 15px; background-color:red;">:message</span>'); ?>
+  @endif
+  @if (Session::has('error'))
+    <? $messages = array_merge($messages, Session::get('error')); ?>
+  @endif
+
+  @if (count($messages) > 0) 
+    <div class="errors">
+    @foreach($messages as $message)
+      {{ $message }}
+    @endforeach
+    </div>
+  @endif
+
     <div class="row">
         <form method="POST" action="/student/request">
             <fieldset>
@@ -36,7 +39,7 @@
                 </div>
                 <div class="row">
                     <div class="small-6 large-6 columns required-checkbox">
-                        <label for="required"><input type="checkbox" id="required" name="required"><span class="custom checkbox"></span> Required to Graduate</label>
+                        <label for="required"><input type="checkbox" id="required" name="required" value="yes"><span class="custom checkbox"></span> Required to Graduate</label>
                     </div>
                 </div>
                 <div class="row">
@@ -78,6 +81,6 @@
         </div>
     </script>
     <script src="/js/foundation.min.js"></script>
-    <script src="/js/request_course.js"></script>
-</body>
-</html>
+<script src="/js/request_course.js"></script>
+
+@endsection

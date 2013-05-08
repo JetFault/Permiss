@@ -34,10 +34,6 @@
 
 // Loading Controllers
 Route::controller(array(
-  'home',
-  'user',
-  'student',
-  'instructor'
 ));
 
 //Explicit Route Overrides
@@ -50,13 +46,23 @@ Route::post('register', 'user@register');
 Route::get('logout', 'user@logout');
 Route::post('logout', 'user@logout');
 
-Route::get('student', 'student@index');
-Route::get('student/request', 'student@request');
-Route::post('student/request', 'student@request');
+Route::group(array('before' => 'auth|role:student'), function() {
+  Route::get('student', 'student@index');
+  Route::get('student/request', 'student@request');
+  Route::post('student/request', 'student@request');
+});
 
-Route::get('instructor', 'instructor@index');
-Route::get('instructor/add_course', 'instructor@add_course');
-Route::post('instructor/add_course', 'instructor@add_course');
+Route::group(array('before' => 'auth|role:instructor'), function() {
+  Route::get('instructor', 'instructor@index');
+  Route::get('instructor/add_course', 'instructor@add_course');
+  Route::post('instructor/add_course', 'instructor@add_course');
+  Route::get('instructor/view_section/(:num)', 'instructor@view_section');
+  Route::get('instructor/view_course/(:num)', 'instructor@view_course');
+  Route::get('instructor/view_student/(:num)', 'instructor@view_student');
+  Route::get('instructor/view_request/(:num)', 'instructor@view_request');
+  Route::get('instructor/accept_request/(:num)', 'instructor@accept_request');
+  Route::get('instructor/deny_request/(:num)', 'instructor@deny_request');
+});
 
 
 /*
@@ -130,5 +136,18 @@ Route::filter('csrf', function()
 
 Route::filter('auth', function()
 {
-	if (Auth::guest()) return Redirect::to('login');
+  $user = Session::get('user');
+  $role = Session::get('role');
+  if(Auth::guest() || is_null($user) || is_null($role)) {
+    return Redirect::to('login');
+  }
+});
+
+Route::filter('role', function($role) {
+  $user = Session::get('user');
+  $my_role = Session::get('role');
+
+  if($my_role !== $role) {
+    return Response::error('403');
+  }
 });

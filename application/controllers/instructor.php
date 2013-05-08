@@ -1,10 +1,26 @@
 <?php
 class Instructor_Controller extends Base_Controller {
+  /**
+   * HELPERS
+   */
+  private function is_self_sect($sect_id) {
+    $user = Session::get('user');
+    $sect = Sect::where('id', '=', $sect_id)->where('instructor_id', '=', $user->id)->first();
+
+    if(is_null($sect)) {
+      return false;
+    }
+    return true;
+  }
+  /* End Helpers */
+
 
   public function get_index() {
     $instructor = Session::get('user');
 
-    $sects = $instructor->sects();
+    $sects = Sect::where('instructor_id', '=', $instructor->id)->get();
+
+    //var_dump($instructor);die;
 
     return View::make('instructor.index')->with('sects', $sects);
   }
@@ -50,19 +66,16 @@ class Instructor_Controller extends Base_Controller {
       $course->save();
     }
 
-    $sects = $course->sects()->get();
-    var_dump($sects);die;
+    $sects = $course->sects;
 
     $exists = array();
     $to_add = array();
 
-    foreach($sects as $sect) {
-      $section_num = $sect->course_id;
-
-      if(in_array($section_num, $sections_in)) {
-        array_push($exists, $section_num);
+    foreach($sections_in as $sect_in) {
+      if(in_array($sect_in, $sects)) {
+        array_push($exists, $sect_in);
       } else {
-        array_push($to_add, $section_num);
+        array_push($to_add, $sect_in);
       }
     }
 
@@ -72,22 +85,23 @@ class Instructor_Controller extends Base_Controller {
     }
 
     $failed_to_save = array();
+    $instructor = Session::get('user');
 
     foreach($to_add as $sect_num) {
-      $num_stud = $input['num_students'.$to_add];
-      $capacity = $input['capacity'.$to_add];
+      //$num_stud = $input['num_students'.$to_add];
+      //$capacity = $input['capacity'.$to_add];
       $course_index = $sect_num;
 
       $course_id = $course->id;
-      $instructor_id = Session::get('user');
 
       $section = new Sect();
-      $section->num_students = $num_stud;
-      $section->capacity = $capacity;
+      //$section->num_students = $num_stud;
+      //$section->capacity = $capacity;
       $section->course_index = $course_index;
       $section->course_id = $course_id;
-      $section->instructor_id = $instructor_id;
-      $section->save();
+      $section->instructor_id = $instructor->id;
+
+      $section = $instructor->sects()->insert($section);
 
       if(is_null($section)) {
         array_push($failed_to_save, $sect_num);
@@ -100,6 +114,93 @@ class Instructor_Controller extends Base_Controller {
     }
 
     return Redirect::to_action('instructor@index');
+  }
+
+  function get_view_course($course_id) {
+    $instructor = Session::get('user');
+
+    /*
+    $sects = Sect::where('course_id', '=', $course_id)
+    ->where('instructor_id', '=', $instructor->id)->get();
+     */
+
+    //$sects = Course::find($course_id)->sects;
+
+    $reqs = DB::table('sects')->join('reqs', 'reqs.sect_id', '=', 'sects.id')
+      ->where('instructor_id', '=', $instructor->id)->get();
+
+    $course = Course::find($course_id);
+
+    return View::make('instructor.view_course')->with('reqs', $reqs)->with('course', $course);
+  }
+
+  function get_view_request($request_id) {
+    $req = Req::with(array('student', 'sect', 'sect.course'))->find($request_id);
+
+    if(!$this->is_self_sect($req->sect->id)) {
+      return Response::error('404');
+    }
+
+    return View::make('instructor.view_request')->with('req', $req);
+  }
+
+  function get_accept_request($request_id) {
+    $req = Req::with(array('student', 'sect', 'sect.course'))->find($request_id);
+
+    if(!$this->is_self_sect($req->sect->id)) {
+      return Response::error('404');
+    }
+
+    $req->status = 'accepted';
+    $req->save();
+
+    return View::make('instructor.view_request')->with('req', $req);
+  }
+
+  function get_deny_request($request_id) {
+    $req = Req::with(array('student', 'sect', 'sect.course'))->find($request_id);
+
+    if(!$this->is_self_sect($req->sect->id)) {
+      return Response::error('404');
+    }
+
+    $req->status = 'denied';
+    $req->save();
+
+    return View::make('instructor.view_request')->with('req', $req);
+  }
+
+  function get_view_section($sect_id) {
+    if(!$this->is_self_sect($sect_id)) {
+      return Response::error('404');
+    }
+
+    $sect = Sect::with(array('course'))->find($sect_id);
+    $reqs = $sect->reqs;
+
+    return View::make('instructor.view_section')->with('sect', $sect)->with('reqs', $reqs);
+  }
+
+  function get_view_student($student_id) {
+    $instructor = Session::get('user');
+
+    $student = Student::find($student_id);
+
+    // LEFT OUTER JOIN, stud->req, instr->sect, on sect.id = req.sect_id
+
+    $derp = DB::table('req')->where('student_id', '=', $student->id)
+      ->left_join('sect', function($join) {
+        $join->on('req.sect_id', '=', 'sect.id');
+        $join->on('sect.instructor_id', '=', $instructor->id);
+      })
+      ->get();
+
+   
+
+    //$reqs = $student->reqs()->with(array('sect', 'sect.course'))->where('
+      //->where('instructor_id', '=', $instructor->id)->get();
+
+    return View::make('instructor.view_student')->with('student', $student)->with('reqs', $reqs);
   }
 
 }

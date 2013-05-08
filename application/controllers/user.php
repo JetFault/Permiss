@@ -4,12 +4,12 @@ class User_Controller extends Base_Controller {
   public function get_index() {
     if(Auth::check()) {
       if(Session::get('role') === 'instructor') {
-        return View::make('instructor.index');
+        return Redirect::to_action('instructor@index');
       } else {
-        return View::make('student.index');
+        return Redirect::to_action('student@index');
       }
     } else {
-      return View::make('user.login');
+      return Redirect::to_action('user@login');
     }
   }
 

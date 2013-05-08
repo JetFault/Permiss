@@ -78,11 +78,13 @@ class Define_Schemas {
       $t->increments('id');
       $t->string('comment')->default('');
       $t->string('status')->default('pending');
-      $t->integer('priority');
-      $t->integer('section_id')->unsigned();
-      $t->foreign('section_id')->references('id')->on('sects')->on_delete('cascade');
+      $t->integer('priority')->default(5);
+      $t->boolean('required')->default(false);
+      $t->integer('sect_id')->unsigned();
+      $t->foreign('sect_id')->references('id')->on('sects')->on_delete('cascade');
       $t->integer('student_id')->unsigned();
       $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
+      $t->unique(array('student_id', 'sect_id'));
     });
 
     Schema::create('permissionnumbers', function($t) {
@@ -90,8 +92,8 @@ class Define_Schemas {
       $t->string('permission_code');
       $t->integer('student_id')->unsigned()->nullable();
       $t->foreign('student_id')->references('id')->on('students')->on_delete('cascade');
-      $t->integer('section_id')->unsigned();
-      $t->foreign('section_id')->references('id')->on('sects')->on_delete('cascade');
+      $t->integer('sect_id')->unsigned();
+      $t->foreign('sect_id')->references('id')->on('sects')->on_delete('cascade');
     });
 
     Schema::create('emails', function($t) {

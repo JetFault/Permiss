@@ -1,19 +1,35 @@
-<!DOCTYPE html>
-<!--[if IE 8]> 				 <html class="no-js lt-ie9" lang="en" > <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
-  <head>
-    <title>Course Permission Thing</title>
+@layout('layout.header')
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+@section('head')
+  <script src="/js/sorttable.js"></script>
+@endsection
 
-    <link rel="stylesheet" href="css/normalize.css" />
-    <link rel="stylesheet" href="css/foundation.css" />
+@section('content')
+  <div class="row small-12 columns">
+    <div class="requests">
+      <table style="width:100%;" class="sortable">
+        <thead>
+          <tr>
+            <th width="500">Name</th>
+            <th>Course</th>
+            <th class="sorttable_nosort">Section</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach ($reqs as $req)
+            <? $course = $req->sect->course; ?>
+            <tr>
+              <td>{{{ $course->name }}}</td>
+              <td>{{{ $course->school_num . ":" . $course->dept_num . ":" . $course->course_num }}}</td>
+              <td>{{{ $req->sect->course_index }}}</td>
+              <td>{{{ $req->status }}}</td>
+            </tr>
+          @endforeach
+        </tbody>
+      </table>
 
-    <script src="js/vendor/custom.modernizr.js"></script>
+    </div>
+  </div>
 
-  </head>
-  <body>
-    <h1>Welcome, Student!</h1>
-  </body>
-</html>
+@endsection

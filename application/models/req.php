@@ -3,11 +3,11 @@
 class Req extends Eloquent {
   public static $timestamps = false;
 
-  public function sects() {
+  public function sect() {
     return $this->belongs_to('Sect');
   }
 
-  public function students() {
+  public function student() {
     return $this->belongs_to('Student');
   }
 }

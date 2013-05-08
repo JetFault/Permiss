@@ -3,6 +3,8 @@
 class Sect extends Eloquent {
   public static $timestamps = false;
 
+  public $includes = array('course');
+
   public function course() {
     return $this->belongs_to('Course');
   }
